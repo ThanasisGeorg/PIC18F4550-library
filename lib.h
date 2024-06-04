@@ -3,6 +3,27 @@
 
 // :020000040000FA
 
+/** -[TOC]-
+ * 1. SEVEN_SEGMENT
+ * 2. LCD_DISPLAY
+ * 3. MISC
+ * 4. KEYPAD
+*/
+
+/** Timer values
+ * Prescaler    Init Value      Result Interval  
+ * --------------------------------------------
+ * 1            5536            5ms
+ * 32           63661           5ms
+ * 64           63661           10ms
+ * 128          63661           20ms
+ * 64           59911           30ms
+ * 64           56161           50ms
+ * 128          56161           100ms
+ * 128          18661           500ms
+ * 
+*/
+
 #use standard_io (A)
 #use standard_io (B)
 #use standard_io (C)
@@ -388,6 +409,24 @@ if(++kbd_call_count>KBD_DEBOUNCE_FACTOR)
      }
          return(kchar);
 }
+
+int getNumber(int8* number_of_digits, int8 MAX_DIGITS, int16* number, char* current_char, char k)
+{
+    if (*number_of_digits == MAX_DIGITS)
+    {
+        *number_of_digits = 0;
+        return 1;
+    }
+    else
+    {
+        *current_char = (k & 0b00001111)
+        *number = *number + ((int)(k & 0b00001111)) * pow(10, *number_of_digits);
+        *number_of_digits++;
+        return 0;
+    }
+}
+
+
 #endif // KEYPAD
 
 
